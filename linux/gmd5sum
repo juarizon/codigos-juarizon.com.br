@@ -1,0 +1,26 @@
+#!/bin/bash
+#Configurar tamanhos altos e altos de mais (em Mb): alto, mostra mensagem informativa
+#e alto demais, emite mensagem de erro sem calcular checksum
+HIGH_SIZE=100
+TOO_HIGH_SIZE=4096
+FILE="${@}"
+if [ "x$1" = "x" ]; then
+    xmessage "Erro: nenhum arquivo indicado para calcular md5 sum"
+    exit 1
+fi;
+SIZE=$(ls -l "${FILE}"|awk '{print $5}')
+SIZE_HUMAN=$((SIZE/1024/1024))
+if [ $SIZE_HUMAN -gt $TOO_HIGH_SIZE ]; then
+    xmessage "Erro: '$FILE': tamanho de arquivo muito grande ($SIZE_HUMAN &gt; $TOO_HIGH_SIZE Mb)"
+    exit 1
+fi; 
+if [ $SIZE_HUMAN -gt $HIGH_SIZE ]; then
+    xmessage "Calculando checksum de arquivo com $SIZE_HUMAN Mb..." -nearmouse -timeout 5 -buttons Ok:0,Cancelar:1
+    if [ $? -eq 1 ]; then
+        xmessage -nearmouse -timeout 5 "Operacao cancelada pelo usuario..."
+            exit 1
+    fi
+fi
+ 
+MD5="$(md5sum "${FILE}")"
+xmessage "$MD5 ($SIZE bytes = $SIZE_HUMAN Mb)"
