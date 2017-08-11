@@ -1,0 +1,5 @@
+ignore_function_time_stamp("sytem");
+#ignore_function_time_stamp("none");
+#se o anterior não funciona, a alternativa é, durante uma sessão do octave usar o comando
+#clear all
+suppress_verbose_help_message(1);
