@@ -1,0 +1,5 @@
+### END DEBIAN AUTOMAGIC KERNELS LIST
+title        Windows
+root        (hd0,1)
+makeactive
+chainloader    +1
